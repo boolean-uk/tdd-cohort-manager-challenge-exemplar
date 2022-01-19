@@ -1,0 +1,21 @@
+classDiagram
+    CohortManager --> Cohort
+    CohortManager --> Student
+    Cohort --> Student
+    class Student
+    Student : +string studentID
+    Student : +string firstname
+    Student : +string lastname
+    Student : +string githubUsername
+    Student : +string email
+    class Cohort
+    Cohort : +string name
+    Cohort : +Student[] students
+    Cohort : +Student getStudentByID(id)
+    Cohort : +void addStudent(student)
+    class CohortManager
+    CohortManager : +Cohort[] cohorts
+    CohortManager : +Cohort getCohortByName(name)
+    CohortManager : +Student getStudentByID(id)
+    CohortManager : +Cohort createCohort(name)
+    CohortManager : +Cohort removeCohortByName(name)
