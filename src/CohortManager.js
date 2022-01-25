@@ -61,9 +61,11 @@ class CohortManager {
   }
 
   addStudentToCohort(cohortName, firstName, lastName, githubAccount, email) {
-    const cohort = this.getCohort(cohortName)
     let student = null;
-    if(cohort !== null) {
+    const cohort = this.getCohort(cohortName)
+    if(cohort !== null 
+      && cohort.hasStudent(firstName, lastName, githubAccount, email) === false) {
+
       this._lastStudentId += 1
       student = new Student(this._lastStudentId, firstName, lastName, githubAccount, email)  
       if(!cohort.addStudent(student)) {
@@ -80,6 +82,19 @@ class CohortManager {
       return cohort.removeStudent(studentId);
     }
     return false;
+  }
+
+  findStudents(firstName, lastName) {
+    let students = []
+    for(var c = 0; c < this.cohorts.length; c++) {
+      for(var s = 0; s < this.cohorts[c].students.length; s++) {
+        if(this.cohorts[c].students[s].firstName === firstName 
+          && this.cohorts[c].students[s].lastName === lastName) {
+            students.push(this.cohorts[c].students[s]);
+          }
+       }
+    }
+    return students
   }
 }
 

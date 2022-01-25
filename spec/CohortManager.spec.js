@@ -81,6 +81,7 @@ describe('Test Cohort Manager', () => {
 
   })
 
+  // req: both for basic / extended
   it('cannot remove an inexisting student', () => {
     // set up
     const cohortName = 'Cohort X'
@@ -167,5 +168,62 @@ describe('Test Cohort Manager', () => {
     // verify
     expect(cohort1).not.toBeNull()
     expect(cohort2).toBeNull()
+  })
+
+  // req: the same student can't exist in multiple cohorts
+  // note: this means the student with firstName, lastName, githubAccount, email, should be unique
+  it('should not allow a student to exist in multiple cohorts', () => {
+      // setup
+      const cohortName = 'Cohort X'
+      const studentData = {
+        firstName: 'first',
+        lastName: 'last',
+        githubAccount: '@github',
+        email: 'email@example.com'
+      }
+
+      // add student to cohort
+      const cohort = cohortManager.createCohort(cohortName)
+      const student = cohortManager.addStudentToCohort(cohortName, studentData.firstName, studentData.lastName, studentData.githubAccount, studentData.email)
+
+      // execut
+      const duplicate = cohortManager.addStudentToCohort(cohortName, studentData.firstName, studentData.lastName, studentData.githubAccount, studentData.email)
+
+      // verify
+      expect(student).not.toBeNull()
+      expect(duplicate).toBeNull()
+  })
+
+  // req: find all students that match first & last names
+  it('should find all students that have same first & last names', () => {
+    // setup
+    const cohortName = 'Cohort X'
+    const studentData = {
+      firstName: 'first',
+      lastName: 'last',
+    }
+
+    const cohort = cohortManager.createCohort(cohortName)
+
+    // create 3 students with the same name
+    let newstudent = null
+    for(var i = 0; i < 3; i++) {
+      newstudent = cohortManager.addStudentToCohort(cohortName, studentData.firstName, studentData.lastName, `@github${i}`, `${i}@example.com`)
+      expect(newstudent).not.toBeNull()
+    }
+
+    // add a couple of other students
+    newstudent = cohortManager.addStudentToCohort(cohortName, 'a', 'b', `@githubab`, `ab@example.com`)
+    expect(newstudent).not.toBeNull()
+
+    newstudent = cohortManager.addStudentToCohort(cohortName, 'c', 'd', `@githubcd`, `cd@example.com`)
+    expect(newstudent).not.toBeNull()
+
+    // execute
+    let foundStudents = cohortManager.findStudents(studentData.firstName, studentData.lastName)
+
+    // verify
+    expect(cohort.students.length).toEqual(5)
+    expect(foundStudents.length).toEqual(3)
   })
 })

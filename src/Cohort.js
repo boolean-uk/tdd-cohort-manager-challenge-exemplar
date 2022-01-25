@@ -27,6 +27,18 @@ class Cohort {
     }
     return false;
   }
+
+  hasStudent(firstName, lastName, githubAccount, email) {
+    for(var i = 0; i < this.students.length; i++) {
+      if(this.students[i].firstName === firstName
+        && this.students[i].lastName === lastName
+        && this.students[i].githubAccount === githubAccount
+        && this.students[i].email === email) {
+          return true;
+      }
+    }
+    return false;
+  }
 }
 
 module.exports = Cohort
