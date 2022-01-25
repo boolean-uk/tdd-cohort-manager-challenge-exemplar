@@ -7,42 +7,39 @@ class CohortManager {
     this._lastStudentId = -1
   }
 
-  canCreateCohortWithName(name) {
+  canCreateCohortWithName (name) {
     let canCreate = true
-    if(name === undefined) {
+    if (name === undefined) {
       canCreate = false
-    }
-    else if(typeof(name) !== typeof(String(""))) {
+    } else if (typeof (name) !== typeof (String(''))) {
       canCreate = false
-    }
-    else if(name.length === 0) {
+    } else if (name.length === 0) {
       canCreate = false
-    }
-    else {
+    } else {
       // check for duplicate cohort name
-      for(var i = 0; i < this.cohorts.length; i++) {
-        if(this.cohorts[i].name === name) {
-          canCreate = false;
-          break;
+      for (let i = 0; i < this.cohorts.length; i++) {
+        if (this.cohorts[i].name === name) {
+          canCreate = false
+          break
         }
       }
     }
     return canCreate
   }
 
-  createCohort(name) {
+  createCohort (name) {
     let cohort = null
-    if(this.canCreateCohortWithName(name)) {
+    if (this.canCreateCohortWithName(name)) {
       cohort = new Cohort(name)
       this.cohorts.push(cohort)
     }
-    return cohort;
+    return cohort
   }
 
-  removeCohort(name) {
-    var removed = false
-    for(var i = 0; i < this.cohorts.length; i++) {
-      if(this.cohorts[i].name === name) {
+  removeCohort (name) {
+    let removed = false
+    for (let i = 0; i < this.cohorts.length; i++) {
+      if (this.cohorts[i].name === name) {
         this.cohorts.splice(i, 1)
         removed = true
         break
@@ -51,48 +48,47 @@ class CohortManager {
     return removed
   }
 
-  getCohort(name) {
-    for(var i = 0; i < this.cohorts.length; i++) {
-        if(this.cohorts[i].name === name) {
-            return this.cohorts[i];
-        }
+  getCohort (name) {
+    for (let i = 0; i < this.cohorts.length; i++) {
+      if (this.cohorts[i].name === name) {
+        return this.cohorts[i]
+      }
     }
-    return null;
+    return null
   }
 
-  addStudentToCohort(cohortName, firstName, lastName, githubAccount, email) {
-    let student = null;
+  addStudentToCohort (cohortName, firstName, lastName, githubAccount, email) {
+    let student = null
     const cohort = this.getCohort(cohortName)
-    if(cohort !== null 
-      && cohort.hasStudent(firstName, lastName, githubAccount, email) === false) {
-
+    if (cohort !== null &&
+      cohort.hasStudent(firstName, lastName, githubAccount, email) === false) {
       this._lastStudentId += 1
-      student = new Student(this._lastStudentId, firstName, lastName, githubAccount, email)  
-      if(!cohort.addStudent(student)) {
+      student = new Student(this._lastStudentId, firstName, lastName, githubAccount, email)
+      if (!cohort.addStudent(student)) {
         student = null
-        this._lastStudentId -= 1;
+        this._lastStudentId -= 1
       }
     }
     return student
   }
-  
-  removeStudentFromCohort(cohortName, studentId) {
-    const cohort = this.getCohort(cohortName);
-    if(cohort !== null) {
-      return cohort.removeStudent(studentId);
+
+  removeStudentFromCohort (cohortName, studentId) {
+    const cohort = this.getCohort(cohortName)
+    if (cohort !== null) {
+      return cohort.removeStudent(studentId)
     }
-    return false;
+    return false
   }
 
-  findStudents(firstName, lastName) {
-    let students = []
-    for(var c = 0; c < this.cohorts.length; c++) {
-      for(var s = 0; s < this.cohorts[c].students.length; s++) {
-        if(this.cohorts[c].students[s].firstName === firstName 
-          && this.cohorts[c].students[s].lastName === lastName) {
-            students.push(this.cohorts[c].students[s]);
-          }
-       }
+  findStudents (firstName, lastName) {
+    const students = []
+    for (let c = 0; c < this.cohorts.length; c++) {
+      for (let s = 0; s < this.cohorts[c].students.length; s++) {
+        if (this.cohorts[c].students[s].firstName === firstName &&
+          this.cohorts[c].students[s].lastName === lastName) {
+          students.push(this.cohorts[c].students[s])
+        }
+      }
     }
     return students
   }

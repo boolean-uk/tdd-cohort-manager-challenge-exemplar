@@ -1,43 +1,43 @@
 class Cohort {
-  constructor(name) {
+  constructor (name) {
     this.name = name
     this.students = []
     this.cohortMaxStudentSize = 24
   }
 
-  addStudent(student) {
+  addStudent (student) {
     // check if we have enough space
-    if(this.students.length < this.cohortMaxStudentSize) {
+    if (this.students.length < this.cohortMaxStudentSize) {
       // check if we are given a valid student
-      if(student !== null) {
+      if (student !== null) {
         // add student & return true
         this.students.push(student)
-        return true;
-      }        
+        return true
+      }
     }
-    return false;
+    return false
   }
 
-  removeStudent(studentId) {
-    for(var i = 0; i < this.students.length; i++) {
-      if(this.students[i].studentId === studentId) {
+  removeStudent (studentId) {
+    for (let i = 0; i < this.students.length; i++) {
+      if (this.students[i].studentId === studentId) {
         this.students.splice(i, 1)
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   }
 
-  hasStudent(firstName, lastName, githubAccount, email) {
-    for(var i = 0; i < this.students.length; i++) {
-      if(this.students[i].firstName === firstName
-        && this.students[i].lastName === lastName
-        && this.students[i].githubAccount === githubAccount
-        && this.students[i].email === email) {
-          return true;
+  hasStudent (firstName, lastName, githubAccount, email) {
+    for (let i = 0; i < this.students.length; i++) {
+      if (this.students[i].firstName === firstName &&
+        this.students[i].lastName === lastName &&
+        this.students[i].githubAccount === githubAccount &&
+        this.students[i].email === email) {
+        return true
       }
     }
-    return false;
+    return false
   }
 }
 
