@@ -39,7 +39,7 @@ class CohortManager {
     let student = null;
     if(cohort !== null) {
       this._lastStudentId += 1
-      student = new Student(this._lastStudentId, 'Mario', 'Rossi', '@github', 'mario@example.com')  
+      student = new Student(this._lastStudentId, firstName, lastName, githubAccount, email)  
       if(!cohort.addStudent(student)) {
         student = null
       }
@@ -48,6 +48,14 @@ class CohortManager {
       }
     }
     return student
+  }
+  
+  removeStudentFromCohort(cohortName, studentId) {
+    const cohort = this.getCohort(cohortName);
+    if(cohort !== null) {
+      return cohort.removeStudent(studentId);
+    }
+    return false;
   }
 }
 
