@@ -1,14 +1,23 @@
+const CAPACITY_DEFAULT = 24
+
 class Cohort {
   constructor(name) {
     this.name = name
     this.students = []
+    this.capacity = CAPACITY_DEFAULT
   }
 
   addStudent(student) {
+    if (this.students.length === this.capacity) {
+      throw new Error('Cohort is full')
+    }
     this.students.push(student)
   }
 
   removeStudent(student) {
+    if (!this.hasStudentWithID(student.id)) {
+      throw new Error('Student does not exist in the cohort')
+    }
     const index = this.students.findIndex((s) => s.id === student.id)
     this.students.splice(index, 1)
   }
@@ -34,6 +43,14 @@ class Cohort {
       hasStudent = false
     }
     return hasStudent
+  }
+
+  findStudentsByFullName(name) {
+    return this.students.filter(
+      (student) =>
+        `${student.firstname} ${student.lastname}`.toLowerCase() ===
+        name.toLowerCase()
+    )
   }
 }
 

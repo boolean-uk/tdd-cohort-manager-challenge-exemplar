@@ -19,3 +19,5 @@ classDiagram
     CohortManager : +Student getStudentByID(id)
     CohortManager : +Cohort createCohort(name)
     CohortManager : +Cohort removeCohortByName(name)
+    CohortManager : +Boolean hasCohortWithName(name)
+    CohortManager : +void addStudentToCohort(student, cohortName)

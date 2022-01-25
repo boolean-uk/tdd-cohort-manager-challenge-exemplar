@@ -104,4 +104,65 @@ describe('Cohort', () => {
     // verify
     expect(result).toEqual(false)
   })
+  it('has a maximum number of students', () => {
+    // set up
+    const student = new Student(
+      'id',
+      'lewis',
+      'campbell',
+      'auenc',
+      'some@email.email'
+    )
+    const maxNum = 3
+    cohort.capacity = maxNum
+    Array(maxNum)
+      .fill(0)
+      .forEach(() => cohort.addStudent(student))
+    // verify
+    expect(() => cohort.addStudent(student)).toThrowError('Cohort is full')
+  })
+  it("cannot remove a student that doesn't exist", () => {
+    // set up
+    const student = new Student(
+      'id',
+      'lewis',
+      'campbell',
+      'auenc',
+      'some@email.email'
+    )
+    // verify
+    expect(() => cohort.removeStudent(student)).toThrowError(
+      'Student does not exist in the cohort'
+    )
+  })
+  it('can search for a student by full name', () => {
+    const studentOne = new Student(
+      'id',
+      'lewis',
+      'campbell',
+      'auenc',
+      'some@email.email'
+    )
+    const studentTwo = new Student(
+      'id2',
+      'lewis',
+      'campbell',
+      'auenc',
+      'some@email.email'
+    )
+    const studentThree = new Student(
+      'id3',
+      'John',
+      'Doe',
+      'something-else',
+      'some-else@email.email'
+    )
+    cohort.addStudent(studentOne)
+    cohort.addStudent(studentTwo)
+    cohort.addStudent(studentThree)
+    // execute
+    const result = cohort.findStudentsByFullName('Lewis Campbell')
+    // verify
+    expect(result.length).toEqual(2)
+  })
 })

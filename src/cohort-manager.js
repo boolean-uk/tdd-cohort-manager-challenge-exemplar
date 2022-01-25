@@ -6,6 +6,12 @@ class CohortManager {
   }
 
   createCohort(name) {
+    if (!name) {
+      throw new Error('Cohort requires a name')
+    }
+    if (this.hasCohortWithName(name)) {
+      throw new Error('Cohort requires a unique name')
+    }
     const cohort = new Cohort(name)
     this.cohorts.push(cohort)
     return cohort
@@ -38,6 +44,27 @@ class CohortManager {
       }
     }
     throw new Error('Student not found')
+  }
+
+  hasCohortWithName(name) {
+    let cohort
+    try {
+      cohort = this.getCohortByName(name)
+    } catch (e) {}
+    // !! coverts the value to a boolean.
+    return !!cohort
+  }
+
+  addStudentToCohort(student, cohortName) {
+    if (!this.hasCohortWithName(cohortName)) {
+      throw new Error('Cohort does not exist')
+    }
+    const cohortWithStudent = this.cohorts.find(cohort => cohort.hasStudentWithID(student.id))
+    if (cohortWithStudent) {
+      throw new Error('Student is already in a cohort')
+    }
+    const cohort = this.getCohortByName(cohortName)
+    cohort.addStudent(student)
   }
 }
 
