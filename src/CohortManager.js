@@ -42,8 +42,6 @@ class CohortManager {
       student = new Student(this._lastStudentId, firstName, lastName, githubAccount, email)  
       if(!cohort.addStudent(student)) {
         student = null
-      }
-      else {
         this._lastStudentId -= 1;
       }
     }

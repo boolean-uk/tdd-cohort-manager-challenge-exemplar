@@ -124,4 +124,26 @@ describe('Test Cohort Manager', () => {
     expect(cohort.students.length).toBe(1)
     expect(cohort.students[0].studentId).toBe(student2.studentId)
   })
+
+  /* EXTENDED */
+  // req: cohorts have fixed capacity at 24 students
+  // req: adding students is not possible beyond 24
+  it('should not allow cohorts to have more than 24 students', () => {
+    // setup
+    const cohortName = 'Cohort X'
+    cohortManager.createCohort(cohortName)
+    
+    // execute
+    // try add 30 students, should get error for students # 25, 26, 27, 28, 29, 30
+    for(var i = 1; i <= 30; i++) {
+      const student = cohortManager.addStudentToCohort(cohortName, `firstName${i}`, `lastName${i}`, `@github${i}`, `${i}@example.com`)
+      if(i <= 24) {
+        expect(student).not.toBeNull();
+        expect(student.studentId).toEqual(i - 1);
+      }
+      else {
+        expect(student).toBeNull();
+      }
+    }
+  })
 })

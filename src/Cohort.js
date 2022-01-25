@@ -2,12 +2,18 @@ class Cohort {
   constructor(name) {
     this.name = name
     this.students = []
+    this.cohortMaxStudentSize = 24
   }
 
   addStudent(student) {
-    if(student !== null) {
-      this.students.push(student)
-      return true;
+    // check if we have enough space
+    if(this.students.length < this.cohortMaxStudentSize) {
+      // check if we are given a valid student
+      if(student !== null) {
+        // add student & return true
+        this.students.push(student)
+        return true;
+      }        
     }
     return false;
   }
