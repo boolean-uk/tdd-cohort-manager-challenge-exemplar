@@ -146,4 +146,26 @@ describe('Test Cohort Manager', () => {
       }
     }
   })
+
+  // req: cohorts can't exist without a name
+  it('should not create a cohort without a name', () => {
+    // setup
+    const cohortName = ''
+    // execute
+    const cohort = cohortManager.createCohort(cohortName)
+    // verify
+    expect(cohort).toBeNull()
+  })
+
+  // req: cohorts can't have the same name
+  it('should not create a cohort with the same name', () => {
+    // setup
+    const cohortName = 'Cohort X'
+    const cohort1 = cohortManager.createCohort(cohortName)
+    // execute
+    const cohort2 = cohortManager.createCohort(cohortName)
+    // verify
+    expect(cohort1).not.toBeNull()
+    expect(cohort2).toBeNull()
+  })
 })

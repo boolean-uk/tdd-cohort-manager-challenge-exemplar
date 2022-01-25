@@ -7,9 +7,35 @@ class CohortManager {
     this._lastStudentId = -1
   }
 
+  canCreateCohortWithName(name) {
+    let canCreate = true
+    if(name === undefined) {
+      canCreate = false
+    }
+    else if(typeof(name) !== typeof(String(""))) {
+      canCreate = false
+    }
+    else if(name.length === 0) {
+      canCreate = false
+    }
+    else {
+      // check for duplicate cohort name
+      for(var i = 0; i < this.cohorts.length; i++) {
+        if(this.cohorts[i].name === name) {
+          canCreate = false;
+          break;
+        }
+      }
+    }
+    return canCreate
+  }
+
   createCohort(name) {
-    let cohort = new Cohort(name)
-    this.cohorts.push(cohort)
+    let cohort = null
+    if(this.canCreateCohortWithName(name)) {
+      cohort = new Cohort(name)
+      this.cohorts.push(cohort)
+    }
     return cohort;
   }
 
