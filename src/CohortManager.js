@@ -37,7 +37,7 @@ class CohortManager {
   addStudentToCohort (cohortName, student) {
     const cohort = this.search(cohortName)
     if (cohort === CohortNotFoundError) {
-      return cohort
+      return CohortNotFoundError
     }
 
     for (const cohort of this.cohorts) {
@@ -62,7 +62,7 @@ class CohortManager {
   removeStudentFromCohort (cohortName, studentID) {
     const cohort = this.search(cohortName)
     if (cohort === CohortNotFoundError) {
-      return cohort
+      return CohortNotFoundError
     }
 
     return cohort.removeStudent(studentID)
