@@ -1,15 +1,15 @@
-const Cohort = require("./Cohort")
+const Cohort = require('./Cohort')
 
-const CohortNotFoundError = "Cohort not found"
-const CohortNameInUseError = "Cohort name already in use"
-const StudentInCohortError = "Student exists in another cohort"
+const CohortNotFoundError = 'Cohort not found'
+const CohortNameInUseError = 'Cohort name already in use'
+const StudentInCohortError = 'Student exists in another cohort'
 
 class CohortManager {
-  constructor() {
+  constructor () {
     this.cohorts = []
   }
 
-  createCohort(cohortName) {
+  createCohort (cohortName) {
     if (this.exists(cohortName)) {
       return CohortNameInUseError
     }
@@ -20,11 +20,11 @@ class CohortManager {
     return cohort
   }
 
-  exists(cohortName) {
-    return this.search(cohortName) != CohortNotFoundError
+  exists (cohortName) {
+    return this.search(cohortName) !== CohortNotFoundError
   }
 
-  search(cohortName) {
+  search (cohortName) {
     for (const cohort of this.cohorts) {
       if (cohort.name === cohortName) {
         return cohort
@@ -34,7 +34,7 @@ class CohortManager {
     return CohortNotFoundError
   }
 
-  addStudentToCohort(cohortName, student) {
+  addStudentToCohort (cohortName, student) {
     const cohort = this.search(cohortName)
     if (cohort === CohortNotFoundError) {
       return cohort
@@ -49,9 +49,9 @@ class CohortManager {
     cohort.students.push(student)
   }
 
-  removeCohort(cohortName) {
+  removeCohort (cohortName) {
     for (const cohort of this.cohorts) {
-      if (cohort.name == cohortName) {
+      if (cohort.name === cohortName) {
         this.cohorts.splice(this.cohorts.indexOf(cohort), 1)
       }
     }
@@ -59,7 +59,7 @@ class CohortManager {
     return CohortNotFoundError
   }
 
-  removeStudentFromCohort(cohortName, studentID) {
+  removeStudentFromCohort (cohortName, studentID) {
     const cohort = this.search(cohortName)
     if (cohort === CohortNotFoundError) {
       return cohort
